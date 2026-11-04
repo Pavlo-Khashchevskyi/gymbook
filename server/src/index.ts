@@ -1,15 +1,11 @@
 import mongoose from 'mongoose';
 import { app } from './app.js';
+import { env } from './config/env.js';
 
 const start = async () => {
-  const port = Number(process.env.PORT) || 3000;
-  const url = process.env.MONGODB_URI;
+  const port = env.PORT;
 
-  if (!url) {
-    throw new Error('MONGODB_URI environment variable is not defined');
-  }
-
-  await mongoose.connect(url);
+  await mongoose.connect(env.MONGODB_URI);
   console.log('Connected to MongoDB');
 
   app.listen(port, () => {
