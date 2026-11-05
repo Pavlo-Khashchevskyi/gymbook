@@ -8,6 +8,8 @@ const envSchema = z.object({
       'MONGODB_URI must start with mongodb:// or mongodb+srv://',
     ),
   PORT: z.coerce.number().int().positive().default(3000),
+  ADMIN_EMAIL: z.email().optional(),
+  ADMIN_PASSWORD: z.string().min(10).optional(),
 });
 
 export const env = envSchema.parse(process.env);
