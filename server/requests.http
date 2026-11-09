@@ -1,0 +1,11 @@
+### valid
+POST http://localhost:3000/api/test-validate
+Content-Type: application/json
+
+{ "email": "a@b.com", "name": "Pablo", "role": "admin" }
+
+### invalid
+POST http://localhost:3000/api/test-validate
+Content-Type: application/json
+
+{ "email": "nope", "name": "P", "role": "admin" }
