@@ -1,7 +1,7 @@
 import express from 'express';
-import { errorHandler } from './middelwares/errorHandler.js';
 import { z } from 'zod';
-import { validate } from './middelwares/validate.js';
+import { validate } from './middlewares/validate.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 
 export const app = express();
 
