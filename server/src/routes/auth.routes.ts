@@ -2,6 +2,8 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { validate } from '../middlewares/validate.js';
 import { Invite } from '../models/invite.model.js';
+import { User } from '../models/user.model.js';
+import bcrypt from 'bcrypt';
 
 export const authRouter = Router();
 
@@ -30,8 +32,33 @@ authRouter.post('/register', validate(registerSchema), async (req, res) => {
     return res.status(400).json({ message: 'Invite expired' });
   }
 
-  return res.json({
-    ok: true,
+  const { email, password, firstName, lastName } = req.body;
+
+  const checkEmail = await User.exists({ email });
+
+  if (checkEmail) {
+    return res.status(409).json({ message: 'Email already in use' });
+  }
+
+  const passwordHash = await bcrypt.hash(password, 10);
+  const user = await User.create({
+    email,
+    passwordHash,
+    firstName,
+    lastName,
     role: invite.role,
+    trainerId: invite.role === 'client' ? invite.createdBy : null,
+  });
+
+  invite.usedAt = new Date();
+
+  await invite.save();
+
+  return res.status(201).json({
+    id: user._id,
+    email: user.email,
+    role: user.role,
+    firstName: user.firstName,
+    lastName: user.lastName,
   });
 });

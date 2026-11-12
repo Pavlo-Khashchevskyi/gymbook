@@ -1,3 +1,5 @@
+@token = 6f86d83e-63f6-4771-85cc-5c34143056df
+
 ### valid invite
 POST http://localhost:3000/api/auth/register
 Content-Type: application/json
@@ -31,4 +33,28 @@ Content-Type: application/json
   "email": "pablo@example.com",
   "firstName": "Pablo",
   "lastName": "Test"
+}
+
+### email already in use → expect 409
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "token": "4a79c565-1332-43d0-a038-1c0abf9d7e92",
+  "email": "PikiMapo92@gmail.com",
+  "password": "password123",
+  "firstName": "Pablo",
+  "lastName": "Test"
+}
+
+### register new trainer → expect 201 (send twice: 2nd → 400 'Invite already used')
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "token": "{{token}}",
+  "email": "trainer1@example.com",
+  "password": "password123",
+  "firstName": "Ivan",
+  "lastName": "Trainer"
 }
