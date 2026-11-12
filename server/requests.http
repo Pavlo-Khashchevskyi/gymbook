@@ -5,7 +5,7 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "token": "4a79c565-1332-43d0-a038-1c0abf9d7e92",
+  "token": "{{token}}",
   "email": "pablo@example.com",
   "password": "password123",
   "firstName": "Pablo",
@@ -29,7 +29,7 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "token": "4a79c565-1332-43d0-a038-1c0abf9d7e92",
+  "token": "{{token}}",
   "email": "pablo@example.com",
   "firstName": "Pablo",
   "lastName": "Test"
@@ -40,8 +40,8 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "token": "4a79c565-1332-43d0-a038-1c0abf9d7e92",
-  "email": "PikiMapo92@gmail.com",
+  "token": "{{token}}",
+  "email": "trainer1@example.com",
   "password": "password123",
   "firstName": "Pablo",
   "lastName": "Test"
