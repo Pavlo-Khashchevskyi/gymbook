@@ -1,11 +1,34 @@
-### valid
-POST http://localhost:3000/api/test-validate
+### valid invite
+POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
-{ "email": "a@b.com", "name": "Pablo", "role": "admin" }
+{
+  "token": "4a79c565-1332-43d0-a038-1c0abf9d7e92",
+  "email": "pablo@example.com",
+  "password": "password123",
+  "firstName": "Pablo",
+  "lastName": "Test"
+}
 
-### invalid
-POST http://localhost:3000/api/test-validate
+### invalid invite
+POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
-{ "email": "nope", "name": "P", "role": "admin" }
+{
+  "token": "00000000-0000-4000-8000-000000000000",
+  "email": "pablo@example.com",
+  "password": "password123",
+  "firstName": "Pablo",
+  "lastName": "Test"
+}
+
+### missing password
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "token": "4a79c565-1332-43d0-a038-1c0abf9d7e92",
+  "email": "pablo@example.com",
+  "firstName": "Pablo",
+  "lastName": "Test"
+}
