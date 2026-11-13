@@ -6,6 +6,7 @@ import { User } from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
+import { requireAuth } from '../middlewares/auth.routes.js';
 
 export const authRouter = Router();
 
@@ -102,4 +103,8 @@ authRouter.post('/login', validate(loginSchema), async (req, res) => {
     token,
     user: { id: user.id, email: user.email, role: user.role },
   });
+});
+
+authRouter.get('/me', requireAuth, (req, res) => {
+  res.json(req.user);
 });
