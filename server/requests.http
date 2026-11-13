@@ -58,3 +58,12 @@ Content-Type: application/json
   "firstName": "Ivan",
   "lastName": "Trainer"
 }
+
+### login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "trainer1@example.com",
+  "password": "password123"
+}
