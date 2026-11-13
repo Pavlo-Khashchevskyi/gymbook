@@ -67,3 +67,21 @@ Content-Type: application/json
   "email": "trainer1@example.com",
   "password": "password123"
 }
+
+###
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YWY1YzViMjIwZDE0NmMyN2Y3Y2YzZGYiLCJyb2xlIjoidHJhaW5lciIsImlhdCI6MTc5NDU4NTA0NywiZXhwIjoxNzk0NjcxNDQ3fQ.zaUD1OBUHTN1m7gTQ95HeZhx9_4KfMR-SVudvyztDKY
+
+### me — no token (expect 401)
+GET http://localhost:3000/api/auth/me
+
+### me — valid token (expect 200)
+GET http://localhost:3000/api/auth/me
+Authorization: Bearer {{authToken}}
+
+### me — broken token (expect 401)
+GET http://localhost:3000/api/auth/me
+Authorization: Bearer abc.def.ghi
+
+### me — wrong scheme (expect 401)
+GET http://localhost:3000/api/auth/me
+Authorization: Basic {{authToken}}
