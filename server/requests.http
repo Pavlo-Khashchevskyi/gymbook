@@ -60,6 +60,7 @@ Content-Type: application/json
 }
 
 ### login
+# @name login
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
@@ -69,7 +70,7 @@ Content-Type: application/json
 }
 
 ###
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YWY1YzViMjIwZDE0NmMyN2Y3Y2YzZGYiLCJyb2xlIjoidHJhaW5lciIsImlhdCI6MTc5NDU4NTA0NywiZXhwIjoxNzk0NjcxNDQ3fQ.zaUD1OBUHTN1m7gTQ95HeZhx9_4KfMR-SVudvyztDKY
+@authToken = {{login.response.body.token}}
 
 ### me — no token (expect 401)
 GET http://localhost:3000/api/auth/me

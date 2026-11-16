@@ -6,7 +6,7 @@ import { User } from '../models/user.model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
-import { requireAuth } from '../middlewares/auth.routes.js';
+import { requireAuth } from '../middlewares/requireAuth.js';
 
 export const authRouter = Router();
 
