@@ -24,10 +24,10 @@ export async function login(
     }),
   });
 
-  const data = await res.json();
+  const data = await res.json().catch(() => null);
 
   if (!res.ok) {
-    throw new Error(data.message ?? 'Login failed');
+    throw new Error(data?.message ?? 'Server is unavailable, try again later');
   }
 
   return data;
