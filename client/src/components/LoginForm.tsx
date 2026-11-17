@@ -1,9 +1,9 @@
-import { useActionState } from "react";
-import { login, type LoginResponse } from "../api/auth";
+import { useActionState } from 'react';
+import { login, type LoginResponse } from '../api/auth';
 
 type State = {
   error: string | null;
-  user: LoginResponse["user"] | null;
+  user: LoginResponse['user'] | null;
   email: string;
 };
 
@@ -13,8 +13,8 @@ async function loginAction(
   _prevState: State,
   formData: FormData,
 ): Promise<State> {
-  const email = String(formData.get("email"));
-  const password = String(formData.get("password"));
+  const email = String(formData.get('email'));
+  const password = String(formData.get('password'));
 
   try {
     const result = await login(email, password);
@@ -26,7 +26,7 @@ async function loginAction(
     };
   } catch (err) {
     return {
-      error: err instanceof Error ? err.message : "Login error",
+      error: err instanceof Error ? err.message : 'Login error',
       user: null,
       email,
     };
@@ -50,7 +50,7 @@ export function LoginForm() {
   return (
     <form
       action={formAction}
-      style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+      style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
     >
       <label>
         Email
@@ -62,18 +62,25 @@ export function LoginForm() {
           autoComplete="email"
         />
       </label>
-      
+
       <label>
         Password
-        <input type="password" name="password" required autoComplete="current-password" />
+        <input
+          type="password"
+          name="password"
+          required
+          autoComplete="current-password"
+        />
       </label>
 
       <button type="submit" disabled={isPending}>
-        {isPending ? "Logging in..." : "Log in"}
+        {isPending ? 'Logging in...' : 'Log in'}
       </button>
 
       {state.error && (
-        <p role="alert" style={{ color: "red" }}>{state.error}</p>
+        <p role="alert" style={{ color: 'red' }}>
+          {state.error}
+        </p>
       )}
     </form>
   );
