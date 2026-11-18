@@ -1,5 +1,6 @@
 import { useActionState } from 'react';
-import { login, type LoginResponse } from '../api/auth';
+import { login, TOKEN_KEY, type LoginResponse } from '../api/auth';
+import { CurrentUser } from './CurrentUser';
 
 type State = {
   error: string | null;
@@ -18,6 +19,8 @@ async function loginAction(
 
   try {
     const result = await login(email, password);
+
+    localStorage.setItem(TOKEN_KEY, result.token);
 
     return {
       error: null,
@@ -46,9 +49,7 @@ export function LoginForm() {
   if (state.user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <span>
-          Hi, {state.user.email} ({state.user.role})
-        </span>
+        <CurrentUser />
       </div>
     );
   }

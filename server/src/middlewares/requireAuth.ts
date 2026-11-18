@@ -30,7 +30,7 @@ export const requireAuth: RequestHandler = async (req, res, next) => {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  req.user = { id: user.id, role: user.role };
+  req.user = { id: user.id, role: user.role, email: user.email };
 
   next();
 };
