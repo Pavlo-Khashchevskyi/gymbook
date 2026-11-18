@@ -1,15 +1,23 @@
 import { useEffect, useState } from 'react';
 import { getMe, TOKEN_KEY, type MeResponse } from '../api/auth';
 
-export function CurrentUser() {
+type Props = {
+  onLogout: () => void;
+};
+
+export function CurrentUser({ onLogout }: Props) {
   const [user, setUser] = useState<MeResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
+
+  const handleLogout = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    onLogout();
+  };
 
   useEffect(() => {
     const token = localStorage.getItem(TOKEN_KEY);
 
     if (!token) {
-      setError('Token not found');
+      handleLogout();
       return;
     }
 
@@ -19,11 +27,7 @@ export function CurrentUser() {
       .then(setUser)
       .catch((err) => {
         if (err.name !== 'AbortError') {
-          setError(
-            err instanceof Error
-              ? err.message
-              : 'Unauthorized, Server is unavailable',
-          );
+          handleLogout();
         }
       });
 
@@ -32,21 +36,23 @@ export function CurrentUser() {
     };
   }, []);
 
-  if (error) {
-    return (
-      <p role="alert" className="text-sm text-red-600">
-        {error}
-      </p>
-    );
-  }
-
   if (!user) {
     return <p>Loading...</p>;
   }
 
   return (
-    <span>
-      Logged in as {user.email} ({user.role})
-    </span>
+    <div className="flex flex-col items-center gap-4 rounded-lg bg-white p-6 shado">
+      <span>
+        Logged in as {user.email} ({user.role})
+      </span>
+
+      <button
+        type="button"
+        onClick={handleLogout}
+        className="rounded-md bg-gray-900 px-4 py-2 text-white hover:bg-gray-700"
+      >
+        Log out
+      </button>
+    </div>
   );
 }
