@@ -41,7 +41,7 @@ export function CurrentUser({ onLogout }: Props) {
   }
 
   return (
-    <div className="flex flex-col items-center gap-4 rounded-lg bg-white p-6 shado">
+    <div className="flex flex-col items-center gap-4 rounded-lg bg-white p-6 shadow">
       <span>
         Logged in as {user.email} ({user.role})
       </span>
