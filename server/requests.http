@@ -86,3 +86,27 @@ Authorization: Bearer abc.def.ghi
 ### me — wrong scheme (expect 401)
 GET http://localhost:3000/api/auth/me
 Authorization: Basic {{authToken}}
+
+### login as client
+# @name loginClient
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "client1@example.com",
+  "password": "password123"
+}
+
+###
+@clientToken = {{loginClient.response.body.token}}
+
+### invites — no token (expect 401)
+GET http://localhost:3000/api/invites
+
+### invites — trainer (expect 200)
+GET http://localhost:3000/api/invites
+Authorization: Bearer {{authToken}}
+
+### invites — client (expect 403)
+GET http://localhost:3000/api/invites
+Authorization: Bearer {{clientToken}}
