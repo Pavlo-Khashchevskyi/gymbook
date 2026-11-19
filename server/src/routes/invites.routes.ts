@@ -13,7 +13,7 @@ invitesRouter.get(
     const { user } = req;
 
     if (!user) {
-      return res.status(403).json({ message: 'Unauthorized' });
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
     const invites = await Invite.find({ createdBy: user.id }).sort({
