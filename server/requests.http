@@ -1,4 +1,4 @@
-@token = 6f86d83e-63f6-4771-85cc-5c34143056df
+@token = paste-invite-token-here
 
 ### valid invite
 POST http://localhost:3000/api/auth/register
@@ -110,3 +110,51 @@ Authorization: Bearer {{authToken}}
 ### invites — client (expect 403)
 GET http://localhost:3000/api/invites
 Authorization: Bearer {{clientToken}}
+
+### invites — trainer creates client invite (expect 201)
+# @name createInvite
+POST http://localhost:3000/api/invites
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "role": "client"
+}
+
+### invites — trainer creates trainer invite (expect 403)
+POST http://localhost:3000/api/invites
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "role": "trainer"
+}
+
+### invites — invalid role (expect 400)
+POST http://localhost:3000/api/invites
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "role": "admin"
+}
+
+### invites — create without token (expect 401)
+POST http://localhost:3000/api/invites
+Content-Type: application/json
+
+{
+  "role": "client"
+}
+
+### register client with the new invite (expect 201)
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "token": "{{createInvite.response.body.token}}",
+  "email": "client1@example.com",
+  "password": "password123",
+  "firstName": "Anna",
+  "lastName": "Client"
+}
