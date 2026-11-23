@@ -1,20 +1,20 @@
-import { useState } from 'react';
-import { TOKEN_KEY } from './api/auth';
-import { CurrentUser } from './components/CurrentUser';
-import { LoginForm } from './components/LoginForm';
+import { Navigate, Route, Routes } from 'react-router';
+import { RegisterPage } from './pages/RegisterPage';
+import { LoginPage } from './pages/LoginPage';
+import { HomePage } from './pages/HomePage';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 export function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
-    () => localStorage.getItem(TOKEN_KEY) !== null,
-  );
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      {isLoggedIn ? (
-        <CurrentUser onLogout={() => setIsLoggedIn(false)} />
-      ) : (
-        <LoginForm onSuccess={() => setIsLoggedIn(true)} />
-      )}
+      <Routes>
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<HomePage />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
   );
 }
