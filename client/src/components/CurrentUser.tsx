@@ -17,7 +17,6 @@ export function CurrentUser({ onLogout }: Props) {
     const token = localStorage.getItem(TOKEN_KEY);
 
     if (!token) {
-      handleLogout();
       return;
     }
 
