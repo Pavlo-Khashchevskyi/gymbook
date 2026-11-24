@@ -1,21 +1,12 @@
 import { useEffect, useState } from 'react';
-import { getMe, TOKEN_KEY, type MeResponse } from '../api/auth';
+import { getMe, type MeResponse } from '../api/auth';
+import { useAuth } from '../auth/useAuth';
 
-type Props = {
-  onLogout: () => void;
-};
-
-export function CurrentUser({ onLogout }: Props) {
+export function CurrentUser() {
   const [user, setUser] = useState<MeResponse | null>(null);
-
-  const handleLogout = () => {
-    localStorage.removeItem(TOKEN_KEY);
-    onLogout();
-  };
+  const { logout, token } = useAuth();
 
   useEffect(() => {
-    const token = localStorage.getItem(TOKEN_KEY);
-
     if (!token) {
       return;
     }
@@ -26,14 +17,14 @@ export function CurrentUser({ onLogout }: Props) {
       .then(setUser)
       .catch((err) => {
         if (err.name !== 'AbortError') {
-          handleLogout();
+          logout();
         }
       });
 
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [token, logout]);
 
   if (!user) {
     return <p>Loading...</p>;
@@ -47,7 +38,7 @@ export function CurrentUser({ onLogout }: Props) {
 
       <button
         type="button"
-        onClick={handleLogout}
+        onClick={logout}
         className="rounded-md bg-gray-900 px-4 py-2 text-white hover:bg-gray-700"
       >
         Log out

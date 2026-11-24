@@ -1,8 +1,13 @@
-import { useNavigate } from 'react-router';
+import { Navigate } from 'react-router';
 import { LoginForm } from '../components/LoginForm';
+import { useAuth } from '../auth/useAuth';
 
 export function LoginPage() {
-  const navigate = useNavigate();
+  const { token } = useAuth();
 
-  return <LoginForm onSuccess={() => navigate('/', { replace: true })} />;
+  if (token) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <LoginForm />;
 }
