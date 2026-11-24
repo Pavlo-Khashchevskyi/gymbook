@@ -1,13 +1,10 @@
 import { useActionState } from 'react';
-import { login, TOKEN_KEY } from '../api/auth';
+import { login } from '../api/auth';
+import { useAuth } from '../auth/useAuth';
 
 type State = {
   error: string | null;
   email: string;
-};
-
-type Props = {
-  onSuccess: () => void;
 };
 
 const initialState: State = { error: null, email: '' };
@@ -16,7 +13,9 @@ const labelClass = 'flex flex-col gap-1 text-sm font-medium text-gray-700';
 const inputClass =
   'rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-900';
 
-export function LoginForm({ onSuccess }: Props) {
+export function LoginForm() {
+  const { login: saveToken } = useAuth();
+
   async function loginAction(
     _prevState: State,
     formData: FormData,
@@ -27,8 +26,7 @@ export function LoginForm({ onSuccess }: Props) {
     try {
       const result = await login(email, password);
 
-      localStorage.setItem(TOKEN_KEY, result.token);
-      onSuccess();
+      saveToken(result.token);
 
       return {
         error: null,
