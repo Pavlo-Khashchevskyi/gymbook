@@ -1,30 +1,7 @@
-import { useEffect, useState } from 'react';
-import { getMe, type MeResponse } from '../api/auth';
 import { useAuth } from '../auth/useAuth';
 
 export function CurrentUser() {
-  const [user, setUser] = useState<MeResponse | null>(null);
-  const { logout, token } = useAuth();
-
-  useEffect(() => {
-    if (!token) {
-      return;
-    }
-
-    const controller = new AbortController();
-
-    getMe(token, controller.signal)
-      .then(setUser)
-      .catch((err) => {
-        if (err.name !== 'AbortError') {
-          logout();
-        }
-      });
-
-    return () => {
-      controller.abort();
-    };
-  }, [token, logout]);
+  const { logout, user } = useAuth();
 
   if (!user) {
     return <p>Loading...</p>;
